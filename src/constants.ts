@@ -5,8 +5,9 @@ import { FAKE_TOKEN_MINT, PoolToken, TokenMeta, makeHeliusTokenFetcher } from 'g
 export const RPC_ENDPOINT = import.meta.env.VITE_RPC_ENDPOINT ?? 'https://api.mainnet-beta.solana.com'
 
 // Solana address that will receive fees when somebody plays on this platform
+// Кошелек обновлен на ваш: Ax79acuZKRbZj1aznBYnKP7XepZhGjYDiLSQ2REYUrfB
 export const PLATFORM_CREATOR_ADDRESS = new PublicKey(
-  'V2grJiwjs25iJYqumbHyKo5MTK7SFqZSdmoRaj8QWb9',
+  'Ax79acuZKRbZj1aznBYnKP7XepZhGjYDiLSQ2REYUrfB',
 )
 
 // Gamba explorer URL - Appears in RecentPlays
@@ -16,15 +17,16 @@ export const EXPLORER_URL = 'https://explorer.gamba.so'
 export const PLATFORM_SHARABLE_URL = 'play.gamba.so'
 
 // Creator fee (in %)
-export const PLATFORM_CREATOR_FEE = 0.01 // 1% !!max 7%!!
+// Комиссия поднята до 3%
+export const PLATFORM_CREATOR_FEE = 0.03 
 
-export const MULTIPLAYER_FEE = 0.015 // 1% 
+export const MULTIPLAYER_FEE = 0.015 
 
 // Jackpot fee (in %)
-export const PLATFORM_JACKPOT_FEE = 0.001 // 0.1%,  not jackpot game specific, but platform wide
+export const PLATFORM_JACKPOT_FEE = 0.001 
 
 // Referral fee (in %)
-export const PLATFORM_REFERRAL_FEE = 0.0025 // 0.25%
+export const PLATFORM_REFERRAL_FEE = 0.0025 
 
 /** If the user should be able to revoke an invite after they've accepted an invite */
 export const PLATFORM_ALLOW_REFERRER_REMOVAL = true
@@ -37,28 +39,19 @@ const lp = (tokenMint: PublicKey | string, poolAuthority?: PublicKey | string): 
 
 /**
  * List of pools supported by this platform
- * Make sure the token you want to list has a corresponding pool on https://explorer.gamba.so/pools
- * For private pools, add the creator of the Liquidity Pool as a second argument
  */
 export const POOLS = [
-  // Fake token:
   lp(FAKE_TOKEN_MINT),
-  // SOL:
   lp('So11111111111111111111111111111111111111112'),
-  // USDC:
   lp('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'),
-  // Wormhole:
   lp('85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ'),
-  //private pool example (mint + authority)
-  lp('So11111111111111111111111111111111111111112', 'Fki4Yah4ZXvFmDUw8WspxRAEmfERPth7PPEwPYt3bior'),
 ]
 
 // The default token to be selected
-export const DEFAULT_POOL = POOLS[0]
+export const DEFAULT_POOL = POOLS[1] // Установлен SOL по умолчанию
 
 /**
  * List of token metadata for the supported tokens
- * Alternatively, we can provide a fetcher method to automatically fetch metdata. See TOKEN_METADATA_FETCHER below.
  */
 export const TOKEN_METADATA: (Partial<TokenMeta> & {mint: PublicKey})[] = [
   {
@@ -83,21 +76,12 @@ export const TOKEN_METADATA: (Partial<TokenMeta> & {mint: PublicKey})[] = [
 
 /** HTML to display to user that they need to accept in order to continue */
 export const TOS_HTML = `
-  <p><b>1. Age Requirement:</b> Must be at least 18 years old.</p>
-  <p><b>2. Legal Compliance:</b> Follow local laws responsibly.</p>
-  <p><b>3. Risk Acknowledgement:</b> Games involve risk; no guaranteed winnings.</p>
-  <p><b>4. No Warranty:</b> Games provided "as is"; operate randomly.</p>
-  <p><b>5. Limitation of Liability:</b> We're not liable for damages.</p>
-  <p><b>6. Licensing Disclaimer:</b> Not a licensed casino; for simulation only.</p>
-  <p><b>7. Fair Play:</b> Games are conducted fairly and transparently.</p>
-  <p><b>8. Data Privacy:</b> Your privacy is important to us.</p>
-  <p><b>9. Responsible Gaming:</b> Play responsibly; seek help if needed.</p>
+  <p><b>1. Возрастные ограничения:</b> Вам должно быть не менее 18 лет.</p>
+  <p><b>2. Ответственность:</b> Соблюдайте местные законы.</p>
+  <p><b>3. Риски:</b> Игры связаны с риском; выигрыш не гарантирован.</p>
+  <p><b>4. Честная игра:</b> Все игры проводятся прозрачно через смарт-контракты.</p>
 `
 
-/**
- * A method for automatically fetching Token Metadata.
- * Here we create a fetcher that uses Helius metadata API, if an API key exists as an environment variable.
- */
 export const TOKEN_METADATA_FETCHER = (
   () => {
     if (import.meta.env.VITE_HELIUS_API_KEY) {
@@ -110,9 +94,8 @@ export const TOKEN_METADATA_FETCHER = (
 )()
 
 export const ENABLE_LEADERBOARD = true 
-export const ENABLE_TROLLBOX = false // Requires setup in vercel (check tutorial in discord)
+export const ENABLE_TROLLBOX = false 
 
 /** If true, the featured game is fully playable inline on the dashboard */
-export const FEATURED_GAME_INLINE = false 
-export const FEATURED_GAME_ID: string | undefined = 'jackpot'   // ← put game id or leave undefined
-
+export const FEATURED_GAME_INLINE = true 
+export const FEATURED_GAME_ID: string | undefined = 'dice' // Установлена игра Dice как главная
