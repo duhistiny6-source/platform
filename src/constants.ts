@@ -84,5 +84,5 @@ export const TOKEN_METADATA_FETCHER = (
 export const ENABLE_LEADERBOARD = true 
 export const ENABLE_TROLLBOX = false 
 export const FEATURED_GAME_INLINE = true 
-export const FEATURED_GAME_ID: string | undefined = 'dice'
+export const FEATURED_GAME_ID: string | undefined = 'dice' 
  
